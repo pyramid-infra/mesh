@@ -153,6 +153,8 @@ pub struct Attribute {
     pub size: usize
 }
 
+pub struct AttributeSpec(pub String, pub usize);
+
 #[derive(Debug, Clone, PartialEq)]
 pub struct Layout {
     pub attributes: Vec<Attribute>,
@@ -161,18 +163,18 @@ pub struct Layout {
 
 impl Layout {
     pub fn position() -> Layout {
-        Layout::new(vec![("position".to_string(), 3)])
+        Layout::new(vec![AttributeSpec("position".to_string(), 3)])
     }
     pub fn position_texcoord() -> Layout {
-        Layout::new(vec![("position".to_string(), 3), ("texcoord".to_string(), 2)])
+        Layout::new(vec![AttributeSpec("position".to_string(), 3), AttributeSpec("texcoord".to_string(), 2)])
     }
     pub fn position_texcoord_normal() -> Layout {
-        Layout::new(vec![("position".to_string(), 3), ("texcoord".to_string(), 2), ("normal".to_string(), 3)])
+        Layout::new(vec![AttributeSpec("position".to_string(), 3), AttributeSpec("texcoord".to_string(), 2), AttributeSpec("normal".to_string(), 3)])
     }
-    pub fn new(layout: Vec<(String, usize)>) -> Layout {
+    pub fn new(layout: Vec<AttributeSpec>) -> Layout {
         let mut stride = 0;
         let mut attributes = vec![];
-        for (name, size) in layout {
+        for AttributeSpec(name, size) in layout {
             attributes.push(Attribute {
                 name: name,
                 offset: stride.clone(),
